@@ -29,12 +29,41 @@ Step 5: Add remote URL as Origin and push the code from git to github.
 
         git remote add origin https://github.com/VinayKumarNC2019/simplewebapp.git 
         
-Step 6: Create Jenkins Item : JOB1
+Step 6: Create Jenkins Item : JOB1  and configure with below details
 
-        * Configure it to PollSCM Master branch
-        * In build section execute shell copy command to copy the code downloaded to /var/master
-        * Execute Docker command with mounting /var/master to /var/www/html, also expose the port to access.
+        * Source Code Management Section:
+        
+           - Choose git
+           - Repositories --> Repository URL https://github.com/VinayKumarNC2019/simplewebapp.git
+           - Branch specifier --> */master
+          
+        * Build Triggers Section:
+        
+           - Choose PollSCM
+           - Schedule  * * * * *  (Which means every minute check Github code for any changes)
+           
+        * Build Section :
+        
+           - Choose Execute shell 
+           
+             copy the  downloaded code to /var/master directory.
+             
+             sudo cp * /var/master
+             
+           - Choose Execute shell 
+           
+              Execute Docker command 
+        
+              count=$(sudo docker inspect ProdServer | wc -l)  #Just to test Webserver is running.
+        
+              [[ $count -gt 1 ]] && sudo docker rm -f ProdServer  # if it's running then remove the container
+
+              sudo docker run -d -i -t -p 80:80 -v /var/master:/usr/local/apache2/htdocs --name ProdServer httpd
+
         * Launch ngrok to get public URL and access from Windows/Mobile.
+        
+          ./ngrok http 80
+        
         
 Step 8:   Start working on new features, Developer creates new branch from the master dev1. (checkout to dev1)
 
