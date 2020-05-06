@@ -2,14 +2,33 @@
 
 To Integrate GIT -- GITHUB -- JENKINS -- DOCKER 
 
- Project Statement : To Streamline the process of Development, Testing and Deployment of a website on Apache Webserver using GIT, GITHUB, JENKINS and DOCKER. 
- 
+ Project Statement : To Streamline the process of Development, Testing and Deployment of a website on Apache Webserver 
+                     using GIT,GITHUB, JENKINS and DOCKER. 
+                     
  Assumptions :
  
  * GIT installed on Windows machine (Developer machine).
  * GITHUB Account.
  * Virtual Machine (RHEL8/CENTOS8) up and running.
  * Jenkins and Docker Installed and Configured on VM.
+ 
+  Work Flow : Developer commits code in his windows machine using GIT then the hook (post-commit*) configured in GIT 
+              should push the code to the GITHUB in dev1 branch. 
+              This should trigger JOB2 which is configured to Poll SCM dev1 branch and hence downloads the code and launches TestWebserver
+              using Docker.
+              After Completion of JOB2, JOB3 gets trigerred due to dependency in place, JOB3 executes curl command to test the
+              Website response and if status is good then proceeds with merge of dev1 branch with master branch.
+              Once this completes as master branch has changed this should trigger JOB1 which is configured to Poll SCM
+              master branch, downloads the code from GITHUB and launches ProdWebServer using Docker.
+              Using ngrok public URL is generated to access it via internet. 
+              
+  Improvements:
+                * Testing the Website should be performed using Selenium or any other testing framework.
+                * Instead of using ngrok, leverage any cloud provider VM for public IP.
+                * Purchase Domain name for the website and map it with the IP of Hosted Machine or Load Balancer machine.
+                * Instead of using volume for code deployment, we must build the Docker image using Docker File and push it to
+                  registry and just launch it.
+                
  
  Step 1: Create Local Repo simplewebapp.
  
