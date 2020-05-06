@@ -18,15 +18,15 @@ To Integrate GIT -- GITHUB -- JENKINS -- DOCKER
               should push the code to the GITHUB in dev1 branch. 
               
               This should trigger JOB2 which is configured to Poll SCM dev1 branch and hence downloads the code and launches 
-              TestServer using docker.
+              webserver TestServer using docker httpd image.
               
               After Completion of JOB2, JOB3 gets trigerred due to dependency in place, JOB3 executes curl command to test the
               Website response and if status is good then proceeds with merge of dev1 branch with master branch.
               
               Once this completes as master branch has changed this should trigger JOB1 which is configured to Poll SCM
-              master branch, downloads the code from GITHUB and launches ProdWebServer using Docker.
+              master branch, downloads the code from GITHUB and launches ProdWebServer using Docker httpd image.
               
-              Using ngrok public URL is generated to access it via internet. 
+              Using ngrok public URL is generated to access it over the internet. 
            
               
               
