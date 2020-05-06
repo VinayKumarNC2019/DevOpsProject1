@@ -11,9 +11,9 @@ To Integrate GIT -- GITHUB -- JENKINS -- DOCKER
  * Virtual Machine (RHEL8/CENTOS8) up and running.
  * Jenkins and Docker Installed and Configured on VM.
  
-Step 1: Create Local Repo simplewebapp.
+ 1: Create Local Repo simplewebapp.
         git init simplewebapp
-Step 2: Create HTML page say index.html, add it and commit it.
+ 2: Create HTML page say index.html, add it and commit it.
         git add index.html
         git commit -m "First commit"
 Step 3: If required make changes to index.html and commit every change to create more versions.
