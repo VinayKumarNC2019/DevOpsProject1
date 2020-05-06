@@ -44,7 +44,7 @@ Step 9:   Add additional code and commit.
 
           git add index.html
           
-          git commit -m "Added background color and changed Styling
+          git commit -m "Added background color and changed Styling"
           
 
 Step 10:  To create this new branch in GITHUB, we can switch to master branch 
@@ -54,9 +54,11 @@ Step 10:  To create this new branch in GITHUB, we can switch to master branch
 
 Step 11:  Create Jenkins JOB2
 
-           * Configure POLLSCM dev1 branch
-           * copy the code to /var/dev1
-           * Execute Docker command to launch Webserver with bind mounting from /var/dev1 to /var/www/html (This represents Test Server)
+           * Configure the job to Poll SCM dev1 branch
+           * copy the downloaded code from WorkSpace to /var/master/dev1
+           * Execute Docker command to launch Webserver with bind mounting from /var/master/dev1 to /var/www/html (This represents Test Server)
+           
+           
            * If docker is running then remove and launch fresh.
            
            
@@ -65,10 +67,12 @@ Step 12:  Create Jenkins JOB3
            * Place dependency on JOB2 (Chaining)
            * Execute Curl Command to test the response code of Test Webserver webapp. (This is not the best way)
            
-           * If Response Code is 200 then Merge dev1 branch in GitHub with Master else do nothing. 
+           curl -Is http://192.168.0.102:3000  | head -1 | awk '{print $2}'
            
-               * Add Behaviour (SCM section)
-               * Git Publisher (Post build section)
+           * If Response Code is 200 then it means Website is up and running and hence proceed to Merge dev1 branch in GitHub with                    Master branch.
+           
+               * Add Behaviour in (SCM section)
+               * Post build section use Git Publisher to merge the dev1 branch to master branch.
                
 
  
