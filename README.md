@@ -65,9 +65,9 @@ Step 6: Create Jenkins Item : JOB1  and configure with below details
           ./ngrok http 80
         
         
-Step 8:   Start working on new features, Developer creates new branch from the master dev1. (checkout to dev1)
+Step 8:   Start working on new features, Developer creates new branch dev1 from the master. (checkout to dev1)
 
-           git checkout -b dev1
+           git checkout -b dev1  # This command both creates the branch and switches to dev1 branch
            
 Step 9:   Add additional code and commit.
 
@@ -76,9 +76,9 @@ Step 9:   Add additional code and commit.
           git commit -m "Added background color and changed Styling"
           
 
-Step 10:  To create this new branch in GITHUB, we can switch to master branch 
+Step 10:  To create this new branch dev1 in GITHUB, we can switch to master branch or add remote and push the code.
 
-          git push --all  (This should create new branch dev1 in GitHub)
+          git push --all  (This should create new branch dev1 in GitHub, execute this in master branch)
 
 
 Step 11:  Create Jenkins Item : JOB2  and configure with below details
@@ -110,20 +110,47 @@ Step 11:  Create Jenkins Item : JOB2  and configure with below details
         
               [[ $count -gt 1 ]] && sudo docker rm -f TestServer  # if it's running then remove the container
 
-              sudo docker run -d -i -t -p 80:80 -v /var/master/dev1:/usr/local/apache2/htdocs --name TestServer httpd
+              sudo docker run -d -i -t -p 90:80 -v /var/master/dev1:/usr/local/apache2/htdocs --name TestServer httpd
            
            
 Step 12:  Create Jenkins JOB3
 
-           * Place dependency on JOB2 (Chaining)
-           * Execute Curl Command to test the response code of Test Webserver webapp. (This is not the best way)
-           
-           curl -Is http://192.168.0.102:3000  | head -1 | awk '{print $2}'
-           
-           * If Response Code is 200 then it means Website is up and running and hence proceed to Merge dev1 branch in GitHub with                    Master branch.
-           
-               * Add Behaviour in (SCM section)
-               * Post build section use Git Publisher to merge the dev1 branch to master branch.
+         * Source Code Management Section:
+        
+           - Choose git
+           - Repositories --> Repository URL https://github.com/VinayKumarNC2019/simplewebapp.git
+           - Choose Credentials of GITHUB account (Add it in Credentials in dashboard)
+           - Branch specifier --> */dev1
+
+         * Build Triggers Section
+         
+           - Choose "Build after other projects are built"
+           - Projects to watch JOB2 
+           - Choose "Trigger only if build is stable"
+            
+         * Build Section:
+        
+           -  Execute Curl Command to test the response code of Test Webserver webapp. 
+              (This is not the best way, will add selenium code if time permits )
+        
+           -  response_code=$(curl -Is http://192.168.0.102:3000/ | head -1 | awk '{print $2}')
+
+              [[ $response_code -eq 200 ]] && echo "Trigger Merge"
+              
+              # If Response Code is 200 then it means Website is up and running 
+              and hence proceed to Merge dev1 branch in GitHub master branch.
+                    
+         * Post-build Actions: 
+         
+           - Choose Git Publisher
+              - Choose "Push Only If Build Succeeds"
+              - Choose "Merge Results"
+              - Branches 
+                  - Branch to push : master
+                  - Target remote name : origin
+                     
+          
+  
                
 
  
