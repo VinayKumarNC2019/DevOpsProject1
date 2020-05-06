@@ -35,20 +35,38 @@ Step 6: Create Jenkins Item : JOB1
         * In build section execute shell copy command to copy the code downloaded to /var/master
         * Execute Docker command with mounting /var/master to /var/www/html, also expose the port to access.
         * Launch ngrok to get public URL and access from Windows/Mobile.
-Step 7:   Above steps is for Creating Stable Production Server Webapp accessible to the clients.
----------------------------------------------------------------------------------------------------------------
+        
 Step 8:   Start working on new features, Developer creates new branch from the master dev1. (checkout to dev1)
+
+           git checkout -b dev1
+           
 Step 9:   Add additional code and commit.
-Step 10:  git push to GitHub (This should create new branch in GitHub)
+
+          git add index.html
+          
+          git commit -m "Added background color and changed Styling
+          
+
+Step 10:  To create this new branch in GITHUB, we can switch to master branch 
+
+          git push --all  (This should create new branch dev1 in GitHub)
+
+
 Step 11:  Create Jenkins JOB2
+
            * Configure POLLSCM dev1 branch
            * copy the code to /var/dev1
            * Execute Docker command to launch Webserver with bind mounting from /var/dev1 to /var/www/html (This represents Test Server)
            * If docker is running then remove and launch fresh.
+           
+           
 Step 12:  Create Jenkins JOB3
+
            * Place dependency on JOB2 (Chaining)
-           * Execute Curl Command to test the response code of Test Webserver webapp. (This is not the right way, we may have to use robust testing may be using selenium etc)
-           * If Response Code is 200 then Merge dev1 branch in GitHub with Master else do nothing. (Use Git Publisher in Post build Action)
+           * Execute Curl Command to test the response code of Test Webserver webapp. (This is not the best way)
+           
+           * If Response Code is 200 then Merge dev1 branch in GitHub with Master else do nothing. 
+           
                * Add Behaviour (SCM section)
                * Git Publisher (Post build section)
                
