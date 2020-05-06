@@ -41,6 +41,7 @@ Step 12:  Create Jenkins JOB3
            * If Response Code is 200 then Merge dev1 branch in GitHub with Master else do nothing. (Use Git Publisher in Post build Action)
                * Add Behaviour (SCM section)
                * Git Publisher (Post build section)
+               
 
  
  
