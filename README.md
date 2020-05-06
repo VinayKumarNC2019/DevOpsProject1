@@ -12,7 +12,9 @@ To Integrate GIT -- GITHUB -- JENKINS -- DOCKER
  * Virtual Machine (RHEL8/CENTOS8) up and running.
  * Jenkins and Docker Installed and Configured on VM.
  
-  Work Flow : Developer commits code in his windows machine using GIT then the hook (post-commit*) configured in GIT 
+  Overview of WorkFlow : 
+  
+              Developer commits code in his windows machine using GIT then the hook (post-commit*) configured in GIT 
               should push the code to the GITHUB in dev1 branch. 
               
               This should trigger JOB2 which is configured to Poll SCM dev1 branch and hence downloads the code and launches 
@@ -25,18 +27,9 @@ To Integrate GIT -- GITHUB -- JENKINS -- DOCKER
               master branch, downloads the code from GITHUB and launches ProdWebServer using Docker.
               
               Using ngrok public URL is generated to access it via internet. 
+           
               
-  Improvements:
-  
-                * Testing the Website should be performed using Selenium or any other testing framework.
-                
-                * Instead of using ngrok, leverage any cloud provider VM for public IP.
-                
-                * Purchase Domain name for the website and map it with the IP of Hosted Machine or Load Balancer machine.
-                
-                * Instead of using volume for code deployment, we must build the Docker image using Docker File and push it to
-                  registry and just launch it.
-                
+              
  
  Step 1: Create Local Repo simplewebapp.
  
@@ -103,10 +96,9 @@ Step 9:   Add additional code and commit.
           git commit -m "Added background color and changed Styling"
           
 
-Step 10:  To create this new branch dev1 in GITHUB, we can switch to master branch or add remote and push the code.
+Step 10:  To create new branch dev1 in GITHUB and to push the code use below command.
 
-          git push --all  (This should create new branch dev1 in GitHub, execute this in master branch)
-
+          git push --set-upstream origin dev1 
 
 Step 11:  Create Jenkins Item : JOB2  and configure with below details
 
@@ -177,7 +169,16 @@ Step 12:  Create Jenkins JOB3
                   - Target remote name : origin
                      
           
+  Improvements:
   
+                * Testing the Website should be performed using Selenium or any other testing framework.
+                
+                * Instead of using ngrok, leverage any cloud provider VM for public IP.
+                
+                * Purchase Domain name for the website and map it with the IP of Hosted Machine or Load Balancer machine.
+                
+                * Instead of using volume for code deployment, we must build the Docker image using Docker File and push it to
+                  registry and just launch it. 
                
 
  
