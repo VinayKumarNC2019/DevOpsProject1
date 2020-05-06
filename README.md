@@ -81,14 +81,36 @@ Step 10:  To create this new branch in GITHUB, we can switch to master branch
           git push --all  (This should create new branch dev1 in GitHub)
 
 
-Step 11:  Create Jenkins JOB2
+Step 11:  Create Jenkins Item : JOB2  and configure with below details
 
-           * Configure the job to Poll SCM dev1 branch
-           * copy the downloaded code from WorkSpace to /var/master/dev1
-           * Execute Docker command to launch Webserver with bind mounting from /var/master/dev1 to /var/www/html (This represents Test Server)
+        * Source Code Management Section:
+        
+           - Choose git
+           - Repositories --> Repository URL https://github.com/VinayKumarNC2019/simplewebapp.git
+           - Branch specifier --> */dev1
+          
+        * Build Triggers Section:
+        
+           - Choose PollSCM
+           - Schedule  * * * * *  (Which means every minute check Github code for any changes)
            
+        * Build Section :
+        
+           - Choose Execute shell 
            
-           * If docker is running then remove and launch fresh.
+             copy the  downloaded code to /var/master directory.
+             
+             sudo cp * /var/master/dev1
+             
+           - Choose Execute shell 
+           
+              Execute Docker command 
+        
+              count=$(sudo docker inspect TestServer | wc -l)  #Just to test Webserver is running.
+        
+              [[ $count -gt 1 ]] && sudo docker rm -f TestServer  # if it's running then remove the container
+
+              sudo docker run -d -i -t -p 80:80 -v /var/master/dev1:/usr/local/apache2/htdocs --name TestServer httpd
            
            
 Step 12:  Create Jenkins JOB3
