@@ -177,7 +177,7 @@ Step 12:  Create Jenkins JOB3
                 
                 * Purchase Domain name for the website and map it with the IP of Hosted Machine or Load Balancer machine.
                 
-                * Instead of using volume for code deployment, we must build the Docker image using Docker File and push it to
+                * Instead of using volume for code deployment, we can build the Docker image using Docker File and push it to
                   registry and just launch it. 
                
 
